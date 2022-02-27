@@ -1,54 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sign in</title>
-    <link rel="stylesheet" href="/css/registration.css">
-</head>
-<body>
+    <link rel="stylesheet" href="/css/registration.css" />
+  </head>
+  <body>
     <div class="login-page">
       <div class="form">
-        <form class="register-form " name="register-form" id="register-form " >
-          <input type="text" placeholder="Name" id="signin-name" name="signin-name" required autofocus value="KEvin"/>
-          <input type="email" placeholder="Email address" name="signin-email"  require id="signin-email" value="kevinrodrigues43@gmail.com" />
-          <input type="password" placeholder="Password" name="signin-pass"  required id="signin-password" value="Kevinr@78"/>
+        <form class="register-form" name="register-form" id="register-form ">
+          <input
+            type="text"
+            placeholder="Name"
+            id="signin-name"
+            name="signin-name"
+            required
+            autofocus
+            value="Kevin"
+          />
+          <input
+            type="email"
+            placeholder="Email address"
+            name="signin-email"
+            require
+            id="signin-email"
+            value="kevinrodrigues43@gmail.com"
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            name="signin-pass"
+            required
+            id="signin-password"
+            value="Kevinr@78"
+          />
           <button type="submit">Create account</button>
-          <p class="message">Already registered? <a href="login.html">Log In</a></p>
+          <p class="message">
+            Already registered? <a href="login.html">Log In</a>
+          </p>
         </form>
       </div>
     </div>
-</body>
+  </body>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-<script>
-  const form = document.getElementById('register-form ')
-  form.addEventListener('submit', validate)
+  <script>
+    const form = document.getElementById("register-form ");
+    form.addEventListener("submit", validate);
 
-  async  function validate(e){
-      e.preventDefault()
-        let name = document.getElementById('signin-name').value
-        
-        let email =document.getElementById('signin-email').value
-        let password = document.getElementById('signin-password').value
-      let regex = "^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$"
-      
-      if(password.match(regex)){
-        return false
+    async function validate(e) {
+      e.preventDefault();
+      let name = document.getElementById("signin-name").value;
+
+      let email = document.getElementById("signin-email").value;
+      let password = document.getElementById("signin-password").value;
+      let regex =
+        "^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$";
+
+      if (password.match(regex)) {
+        return false;
       }
 
-      let result = await fetch('/signin',{
-        method:'POST',
-        headers:{
-          "Content-Type":"application/json"
+      let result = await fetch("/home/signin", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-        body:JSON.stringify({
-          name,email,password
-        })
-      }).then(res=>{
-        return res.json()
+        body: JSON.stringify({
+          name,
+          email,
+          password,
+        }),
       })
-
+        .then((data) => {
+          return data.json();
+        })
+        .then((data) => {
+          if (!data.status) {
+            throw new Error(data.message);
+          }
+        })
+        .catch((err) => {
+          Swal.fire({
+            title: "Error!",
+            text: err,
+            icon: "error",
+            confirmButtonText: "Cool",
+          });
+        });
     }
-</script>
+  </script>
 </html>

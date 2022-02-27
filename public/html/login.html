@@ -11,9 +11,9 @@
 <body>
     <div class="login-page flip-card">
         <div class="form ">
-          <form class="login-form ">
-            <input type="email" placeholder="Email address" name="login-email" id="login-email" autofocus/>
-            <input type="password" placeholder="Password" name="login-pass" id="login-pass"/>
+          <form class="login-form" id="login-form" name="login-form">
+            <input type="email" placeholder="Email address" name="login-email" id="login-email" autofocus value="kevinrodrigues43@gmail.com"/>
+            <input type="password" placeholder="Password" name="login-pass" id="login-password" value="Kevinr@78"/>
             <button type="submit">login</button>
             <p>Or</p>
 
@@ -22,5 +22,26 @@
         </div>
       </div>
 </body>
+<script>
+  const form = document.getElementById('login-form')
+  form.addEventListener('submit', validateFor)
 
+
+  
+  async function validateFor(e){
+    e.preventDefault();
+
+    let email = document.getElementById('login-email').value
+    let password = document.getElementById('login-password').value
+
+console.log(email,password);
+  let result= await fetch('/home/login', {
+    method:'POST',
+    headers:{
+      "Content-Type":"application/json"
+    },body:JSON.stringify({email,password})
+  })
+
+}
+</script>
 </html>
